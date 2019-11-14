@@ -5,7 +5,8 @@
  */
 package logic;
 
-import BEANS.cargoBean;
+
+import BEANS.rolBean;
 import CADO.CADO;
 import interfaces.crudInterface;
 import java.sql.PreparedStatement;
@@ -19,21 +20,18 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class cargoImp implements crudInterface {
+public class rolImp implements crudInterface{
+    
+      CADO cd = new CADO();
 
-    CADO cd = new CADO();
-
-    private final String sqlinsert = "INSERT INTO cargo(nomCargo) values (?)";
-    private final String sqlistado = "SELECT * FROM cargo where codCargo = ?";
-    private final String sqlistadoCompleto = "SELECT * FROM cargo ";
-    private final String sqlDelete = "DELETE from cargo WHERE codCargo = ?";
-    private final String sqlUpdate = "UPDATE  cargo SET nomCargo = ? where codCargo = ?";
+    private final String sqlinsert = "INSERT INTO rol(nomRol) values (?)";
+    private final String sqlistado = "SELECT * FROM rol where codRol = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM rol ";
+    private final String sqlDelete = "DELETE from rol WHERE codRol = ?";
+    private final String sqlUpdate = "UPDATE  rol SET nomRol = ? where codRol = ?";
 
     PreparedStatement ps;
     ResultSet rs;
-
-  
-
 
     @Override
     public boolean insert(Object[] obj) {
@@ -65,7 +63,7 @@ public class cargoImp implements crudInterface {
 
     @Override
     public boolean update(Object[] obj) {
-          try {
+        try {
             Object[] param = new Object[2];
             param[0] = obj[0];
             param[1] = obj[1];
@@ -80,16 +78,16 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar(int id) {
-         ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
-            rs = cd.listar(sqlistado,id);
+            rolBean rol;
+            rs = cd.listar(sqlistado, id);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                rol = new rolBean();
+                rol.setCodRol(rs.getInt(1));
+                rol.setNomRol(rs.getString(2));
+                lista.add(rol);
             }
 
         } catch (SQLException ex) {
@@ -101,16 +99,16 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar() {
-  ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
+            rolBean rol;
             rs = cd.listar(sqlistadoCompleto);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                rol = new rolBean();
+                rol.setCodRol(rs.getInt(1));
+                rol.setNomRol(rs.getString(2));
+                lista.add(rol);
             }
 
         } catch (SQLException ex) {
@@ -119,5 +117,5 @@ public class cargoImp implements crudInterface {
 
         return lista;
     }
-
+    
 }

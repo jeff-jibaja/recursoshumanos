@@ -5,7 +5,8 @@
  */
 package logic;
 
-import BEANS.cargoBean;
+import BEANS.suspensionBean;
+import BEANS.usuarioBean;
 import CADO.CADO;
 import interfaces.crudInterface;
 import java.sql.PreparedStatement;
@@ -19,27 +20,32 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class cargoImp implements crudInterface {
+public class usuarioImp implements crudInterface{
+    
+     
+      CADO cd = new CADO();
 
-    CADO cd = new CADO();
-
-    private final String sqlinsert = "INSERT INTO cargo(nomCargo) values (?)";
-    private final String sqlistado = "SELECT * FROM cargo where codCargo = ?";
-    private final String sqlistadoCompleto = "SELECT * FROM cargo ";
-    private final String sqlDelete = "DELETE from cargo WHERE codCargo = ?";
-    private final String sqlUpdate = "UPDATE  cargo SET nomCargo = ? where codCargo = ?";
+    private final String sqlinsert = "INSERT INTO usuario(usuario,contrase,codRol,codPersona) values (?,?,?,?)";
+    private final String sqlistado = "SELECT * FROM usuario where codUsuario = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM usuario ";
+    private final String sqlDelete = "DELETE from usuario WHERE codUsuario = ?";
+    private final String sqlUpdate = "UPDATE  usuario  SET usuario = ?,"
+                                                            + "contrase = ?,"
+                                                            + "codRol = ?,"
+                                                            + "codPersona = ?"
+                                                            + " where codUsuario = ?";
 
     PreparedStatement ps;
     ResultSet rs;
 
-  
-
-
     @Override
     public boolean insert(Object[] obj) {
         try {
-            Object[] param = new Object[1];
+            Object[] param = new Object[4];
             param[0] = obj[0];
+            param[1] = obj[1];
+            param[2] = obj[2];
+            param[3] = obj[3];
             if (cd.insert(sqlinsert, param)) {
                 return true;
             }
@@ -65,10 +71,13 @@ public class cargoImp implements crudInterface {
 
     @Override
     public boolean update(Object[] obj) {
-          try {
-            Object[] param = new Object[2];
+        try {
+            Object[] param = new Object[5];
             param[0] = obj[0];
             param[1] = obj[1];
+            param[2] = obj[2];
+            param[3] = obj[3];
+            param[4] = obj[4];
             if (cd.editar(sqlUpdate, param)) {
                 return true;
             }
@@ -80,16 +89,18 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar(int id) {
-         ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
-            rs = cd.listar(sqlistado,id);
-
+           usuarioBean usu;
+            rs = cd.listar(sqlistado, id);        
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                usu = new usuarioBean();
+                usu.setCodUusario(rs.getInt(1));
+                usu.setUsuario(rs.getString(2));
+                usu.setContraseña(rs.getString(3));
+                usu.setFK_codRol(rs.getInt(4));
+                usu.setFK_codPersona(rs.getInt(5));
+                lista.add(usu);
             }
 
         } catch (SQLException ex) {
@@ -101,16 +112,19 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar() {
-  ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
+            usuarioBean usu;
             rs = cd.listar(sqlistadoCompleto);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                usu = new usuarioBean();
+                usu.setCodUusario(rs.getInt(1));
+                usu.setUsuario(rs.getString(2));
+                usu.setContraseña(rs.getString(3));
+                usu.setFK_codRol(rs.getInt(4));
+                usu.setFK_codPersona(rs.getInt(5));
+                lista.add(usu);
             }
 
         } catch (SQLException ex) {
@@ -119,5 +133,6 @@ public class cargoImp implements crudInterface {
 
         return lista;
     }
-
+    
+    
 }

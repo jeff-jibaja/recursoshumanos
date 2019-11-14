@@ -5,7 +5,7 @@
  */
 package logic;
 
-import BEANS.cargoBean;
+import BEANS.tipoLicenciaBean;
 import CADO.CADO;
 import interfaces.crudInterface;
 import java.sql.PreparedStatement;
@@ -19,22 +19,18 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class cargoImp implements crudInterface {
+public class tipoLicenciaImp implements crudInterface{
+     CADO cd = new CADO();
 
-    CADO cd = new CADO();
-
-    private final String sqlinsert = "INSERT INTO cargo(nomCargo) values (?)";
-    private final String sqlistado = "SELECT * FROM cargo where codCargo = ?";
-    private final String sqlistadoCompleto = "SELECT * FROM cargo ";
-    private final String sqlDelete = "DELETE from cargo WHERE codCargo = ?";
-    private final String sqlUpdate = "UPDATE  cargo SET nomCargo = ? where codCargo = ?";
+    private final String sqlinsert = "INSERT into tipoLicencia(nomTipoLic) values (?)";
+    private final String sqlistado = "SELECT * FROM tipoLicencia  WHERE codTipoLic = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM tipoLicencia";
+    private final String sqlDelete = "DELETE from tipoLicencia WHERE codTipoLic = ?";
+    private final String sqlUpdate = "UPDATE  tipoLicencia SET nomTipoLic = '?' where codTipoLic = ?";
 
     PreparedStatement ps;
     ResultSet rs;
-
-  
-
-
+    
     @Override
     public boolean insert(Object[] obj) {
         try {
@@ -44,7 +40,7 @@ public class cargoImp implements crudInterface {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(profesionImp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(tipoContratoImp.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -65,7 +61,7 @@ public class cargoImp implements crudInterface {
 
     @Override
     public boolean update(Object[] obj) {
-          try {
+        try {
             Object[] param = new Object[2];
             param[0] = obj[0];
             param[1] = obj[1];
@@ -80,16 +76,16 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar(int id) {
-         ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
+             tipoLicenciaBean licTipo;
             rs = cd.listar(sqlistado,id);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                licTipo = new tipoLicenciaBean();
+                licTipo.setCodTipoLic(rs.getInt(1));
+                licTipo.setNomTipoLic(rs.getString(2));
+                lista.add(licTipo);
             }
 
         } catch (SQLException ex) {
@@ -101,16 +97,16 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar() {
-  ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
+            tipoLicenciaBean licTipo;
             rs = cd.listar(sqlistadoCompleto);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                licTipo = new tipoLicenciaBean();
+                licTipo.setCodTipoLic(rs.getInt(1));
+                licTipo.setNomTipoLic(rs.getString(2));
+                lista.add(licTipo);
             }
 
         } catch (SQLException ex) {

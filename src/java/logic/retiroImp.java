@@ -5,7 +5,7 @@
  */
 package logic;
 
-import BEANS.cargoBean;
+import BEANS.retiroBean;
 import CADO.CADO;
 import interfaces.crudInterface;
 import java.sql.PreparedStatement;
@@ -19,27 +19,29 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class cargoImp implements crudInterface {
-
+public class retiroImp implements crudInterface{
+    
     CADO cd = new CADO();
 
-    private final String sqlinsert = "INSERT INTO cargo(nomCargo) values (?)";
-    private final String sqlistado = "SELECT * FROM cargo where codCargo = ?";
-    private final String sqlistadoCompleto = "SELECT * FROM cargo ";
-    private final String sqlDelete = "DELETE from cargo WHERE codCargo = ?";
-    private final String sqlUpdate = "UPDATE  cargo SET nomCargo = ? where codCargo = ?";
+    private final String sqlinsert = "INSERT INTO retiro(fechaRetiro,codContrato,codMotivoR) values (?,?,?)";
+    private final String sqlistado = "SELECT * FROM retiro where codRetiro = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM retiro ";
+    private final String sqlDelete = "DELETE from retiro WHERE codRetiro = ?";
+    private final String sqlUpdate = "UPDATE  retiro SET fechaRetiro = ?,"
+                                                    + " codContrato = ? ,"
+                                                    + "codMotivoR = ? "
+                                                    + "where codRetiro = ?";
 
     PreparedStatement ps;
     ResultSet rs;
 
-  
-
-
     @Override
     public boolean insert(Object[] obj) {
         try {
-            Object[] param = new Object[1];
+            Object[] param = new Object[3];
             param[0] = obj[0];
+            param[1] = obj[1];
+            param[2] = obj[2];
             if (cd.insert(sqlinsert, param)) {
                 return true;
             }
@@ -65,10 +67,12 @@ public class cargoImp implements crudInterface {
 
     @Override
     public boolean update(Object[] obj) {
-          try {
-            Object[] param = new Object[2];
+        try {
+            Object[] param = new Object[4];
             param[0] = obj[0];
             param[1] = obj[1];
+            param[2] = obj[2];
+            param[3] = obj[3];
             if (cd.editar(sqlUpdate, param)) {
                 return true;
             }
@@ -80,16 +84,18 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar(int id) {
-         ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
-            rs = cd.listar(sqlistado,id);
+            retiroBean retiro;
+            rs = cd.listar(sqlistado, id);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                retiro = new retiroBean();
+                retiro.setCodRetito(rs.getInt(1));
+                retiro.setFechaRetiro(rs.getString(2));
+                retiro.setFK_codContrato(rs.getInt(3));
+                retiro.setFK_codMotivo(rs.getInt(4));
+                lista.add(retiro);
             }
 
         } catch (SQLException ex) {
@@ -101,16 +107,18 @@ public class cargoImp implements crudInterface {
 
     @Override
     public ArrayList<Object> listar() {
-  ArrayList<Object> lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList();
         try {
-            cargoBean cargo;
+           retiroBean retiro;
             rs = cd.listar(sqlistadoCompleto);
 
             while (rs.next()) {
-                cargo = new cargoBean();
-                cargo.setCodCargo(rs.getInt(1));
-                cargo.setCargo(rs.getString(2));
-                lista.add(cargo);
+                retiro = new retiroBean();
+                retiro.setCodRetito(rs.getInt(1));
+                retiro.setFechaRetiro(rs.getString(2));
+                retiro.setFK_codContrato(rs.getInt(3));
+                retiro.setFK_codMotivo(rs.getInt(4));
+                lista.add(retiro);
             }
 
         } catch (SQLException ex) {
@@ -119,5 +127,5 @@ public class cargoImp implements crudInterface {
 
         return lista;
     }
-
+    
 }

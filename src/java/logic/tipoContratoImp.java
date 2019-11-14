@@ -24,8 +24,8 @@ public class tipoContratoImp implements crudInterface {
     CADO cd = new CADO();
 
     private final String sqlinsert = "insert into tipoContrato(nomTipoCont) values (?)";
-    private final String sqlistado = "SELECT * FROM tipoContrato";
-    private final String sqlistadoCompleto = "SELECT * FROM tipoContrato WHERE codTipoCont = ?";
+    private final String sqlistado = "SELECT * FROM tipoContrato WHERE codTipoCont = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM tipoContrato ";
     private final String sqlDelete = "DELETE from tipoContrato WHERE codTipoCont = ?";
     private final String sqlUpdate = "UPDATE  tipoContrato SET nomTipoCont = '?' where codTipoCont = ?";
 

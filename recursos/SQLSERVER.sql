@@ -157,11 +157,11 @@ GO
 CREATE TABLE licencia(
 	codLicencia INT IDENTITY(1,1)  PRIMARY KEY ,
 	fechaInicio DATE  NOT NULL,
-	fechaFin DATE  NOT NULL,
-	observacion VARCHAR(50)  NOT NULL,
+	fechaFin DATE  NOT NULL,	
 	documento VARCHAR(20)  NOT NULL,
 	codTipoLic TINYINT NOT NULL,
 	codContrato INT NOT NULL,
+	observacion VARCHAR(50)  NOT NULL,
 
 	
 	CONSTRAINT FK_TIPOLIC_LICENCIA FOREIGN KEY (codTipoLic)
@@ -205,7 +205,8 @@ GO
 
 CREATE TABLE suspension(
   codSuspension INT IDENTITY(1,1)  PRIMARY KEY ,
-  fechaSuspension DATE  NOT NULL,
+  inicioSuspension DATE  NOT NULL,
+  finSuspension DATE  NOT NULL,
   codContrato INT NOT NULL,
   codMotivoSus TINYINT NOT NULL,
   

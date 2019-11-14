@@ -5,8 +5,8 @@
  */
 package logic;
 
-
-import BEANS.funcionesBean;
+import BEANS.establecimientoBean;
+import BEANS.licenciaBean;
 import CADO.CADO;
 import interfaces.crudInterface;
 import java.sql.PreparedStatement;
@@ -20,15 +20,21 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class funcionImp implements crudInterface{
+public class licenciaImp implements crudInterface{
 
-   CADO cd = new CADO();
+    CADO cd = new CADO();
 
-    private final String sqlinsert = "INSERT INTO funcionesCargo(nomFuncion,cargo) values (?,?)";
-    private final String sqlistado = "SELECT * FROM funcionesCargo where codFuncion = ?";
-    private final String sqlistadoCompleto = "SELECT * FROM funcionesCargo ";
-    private final String sqlDelete = "DELETE from funcionesCargo WHERE codFuncion = ?";
-    private final String sqlUpdate = "UPDATE  funcionesCargo SET nomFuncion = ?, cargo = ?  where codFuncion = ?";
+    private final String sqlinsert = "INSERT INTO licencia(fechaInicio,fechaFin,documento,codTipoLic,codContrato,observacion) values (?,?,?,?,?,?)";
+    private final String sqlistado = "SELECT * FROM licencia where codLicencia = ?";
+    private final String sqlistadoCompleto = "SELECT * FROM licencia ";
+    private final String sqlDelete = "DELETE from licencia WHERE codLicencia = ?";
+    private final String sqlUpdate = "UPDATE  licencia SET fechaInicio = ?,"
+                                                    + " fechaFin = ?"
+                                                    + ",documento = ?,"
+                                                    + "codTipoLic = ?,"
+                                                    + "codContrato = ?,"
+                                                    + "observacion = ?"
+                                                    + "where codLicencia = ?";
 
     PreparedStatement ps;
     ResultSet rs;
@@ -36,9 +42,13 @@ public class funcionImp implements crudInterface{
     @Override
     public boolean insert(Object[] obj) {
         try {
-            Object[] param = new Object[2];
+            Object[] param = new Object[6];
             param[0] = obj[0];
             param[1] = obj[1];
+            param[2] = obj[2];
+            param[3] = obj[3];
+            param[4] = obj[4];
+            param[5] = obj[5];
             if (cd.insert(sqlinsert, param)) {
                 return true;
             }
@@ -65,10 +75,14 @@ public class funcionImp implements crudInterface{
     @Override
     public boolean update(Object[] obj) {
         try {
-            Object[] param = new Object[3];
+            Object[] param = new Object[7];
             param[0] = obj[0];
             param[1] = obj[1];
             param[2] = obj[2];
+            param[6] = obj[3];
+            param[4] = obj[4];
+            param[5] = obj[5];
+            param[6] = obj[6];
             if (cd.editar(sqlUpdate, param)) {
                 return true;
             }
@@ -82,15 +96,19 @@ public class funcionImp implements crudInterface{
     public ArrayList<Object> listar(int id) {
         ArrayList<Object> lista = new ArrayList();
         try {
-            funcionesBean fun;
+            licenciaBean lic;
             rs = cd.listar(sqlistado, id);
 
             while (rs.next()) {
-                fun = new funcionesBean();
-                fun.setCodFuncion(rs.getInt(1));
-                fun.setNomFuncion(rs.getString(2));
-                fun.setFK_codCargo(rs.getInt(3));
-                lista.add(fun);
+                lic = new licenciaBean();
+                lic.setCodLicencia(rs.getInt(1));
+                lic.setFechaInicio(rs.getString(2));
+                lic.setFechaFin(rs.getString(3));
+                lic.setDocumento(rs.getString(4));
+                lic.setFK_codTipoLic(rs.getInt(5));
+                lic.setFK_codContrato(rs.getInt(6));
+                lic.setObservacion(rs.getString(7));
+                lista.add(lic);
             }
 
         } catch (SQLException ex) {
@@ -104,15 +122,19 @@ public class funcionImp implements crudInterface{
     public ArrayList<Object> listar() {
         ArrayList<Object> lista = new ArrayList();
         try {
-            funcionesBean fun;
+            licenciaBean lic;
             rs = cd.listar(sqlistadoCompleto);
 
             while (rs.next()) {
-                fun = new funcionesBean();
-                fun.setCodFuncion(rs.getInt(1));
-                fun.setNomFuncion(rs.getString(2));
-                fun.setFK_codCargo(rs.getInt(3));
-                lista.add(fun);
+                lic = new licenciaBean();
+                lic.setCodLicencia(rs.getInt(1));
+                lic.setFechaInicio(rs.getString(2));
+                lic.setFechaFin(rs.getString(3));
+                lic.setDocumento(rs.getString(4));
+                lic.setFK_codTipoLic(rs.getInt(5));
+                lic.setFK_codContrato(rs.getInt(6));
+                lic.setObservacion(rs.getString(7));
+                lista.add(lic);
             }
 
         } catch (SQLException ex) {
@@ -121,5 +143,5 @@ public class funcionImp implements crudInterface{
 
         return lista;
     }
-    
+
 }
