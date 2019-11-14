@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.container{
+    width: 50%;
+    margin: auto;
+}
+.formulario{
+    margin-bottom: 2%;
+}
+
+.form-header{
+    height: 75px;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 5%;
+    -webkit-box-shadow: inset 6px -200px 0px -197px rgba(0,1,136,0.54);
+    -moz-box-shadow: inset 6px -200px 0px -197px rgba(0,1,136,0.54);
+    box-shadow: inset 6px -200px 0px -197px rgba(0,1,136,0.54);
+}
+
+
+td{
+    padding: 5px;
+}
+.table{
+    width: 100%;
+    font-family: sans-serif;
+    border-collapse: collapse;
+}
+
+.table_header{
+    background: rgba(0,0,0,0.1);
+    height: 50px;        
+    color: #ffffff;
+    border-radius: 15px;
+    background: steelblue;
+}
+.table_body{
+    height: 48px;
+}
+
+
+
+.boton{
+    background: white;
+    border:none;
+    color: white;
+}
+
+.boton_guardar{
+    background: #388e3c;
+    padding: 2%;
+    width: 45%;
+}
+
+
+
+.boton_editar{
+    background: #007bff;
+    
+}
+
+.boton_eliminar{
+    background: #cc0000;
+}

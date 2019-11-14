@@ -1,0 +1,213 @@
+CREATE DATABASE rrhh
+ 
+CREATE TABLE persona(
+	codPersona INT(8)  PRIMARY KEY AUTO_INCREMENT,
+	nombres VARCHAR(20)  NOT NULL,
+	apellidoPaterno VARCHAR(20)  NOT NULL,
+	apellidoMaterno VARCHAR(20)  NOT NULL,
+	dni char(8)  NOT NULL  ,
+	telefono CHAR(9)  NOT NULL,
+   nacimiento	DATE  NOT NULL,
+   sexo	VARCHAR(1)  NOT NULL,
+   email	VARCHAR(20)  NOT NULL
+)
+
+
+CREATE TABLE profesion_oficio(
+	codProfesion smallint(3)  PRIMARY KEY AUTO_INCREMENT,
+	profesion VARCHAR(20)  NOT NULL unique
+) 
+
+
+
+CREATE TABLE  red (
+	codRed	INT(3)  PRIMARY KEY AUTO_INCREMENT,
+	red	VARCHAR(20)  NOT NULL
+)
+
+
+CREATE TABLE microred (
+	codMicro	INT(4)  PRIMARY KEY AUTO_INCREMENT,
+	microred	VARCHAR(200)  NOT NULL,
+	red	INT(3)  NOT NULL,
+	 
+	CONSTRAINT fk_red_microred FOREIGN KEY (red)
+	REFERENCES red(codRed) ON update CASCADE ON DELETE CASCADE
+
+)
+
+CREATE TABLE establecimiento(
+	codEstab INT(8)  PRIMARY KEY AUTO_INCREMENT,
+	establecimiento VARCHAR(200)  NOT NULL,
+	microred INT(4)  NOT NULL,
+	
+	CONSTRAINT fk_microred_establecimiento FOREIGN KEY (microred)
+	REFERENCES microred(codMicro) ON UPDATE CASCADE ON DELETE CASCADE 
+	
+)
+
+
+CREATE TABLE estadoContrato(
+	codEstadoCon INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomEst VARCHAR(50)  NOT NULL
+)
+
+CREATE TABLE cargo(
+	codCargo INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomCargo VARCHAR(50)  NOT NULL
+) 
+
+CREATE TABLE funcionesCargo (
+	codFuncion INT(3)  PRIMARY KEY AUTO_INCREMENT,
+	nomFuncion VARCHAR(200)  NOT NULL,
+	cargo INT(2) NOT NULL,
+	
+	CONSTRAINT FK_CARGO_FUNCIONES FOREIGN KEY (cargo)
+	REFERENCES cargo(codCargo) ON UPDATE CASCADE ON DELETE CASCADE 
+)
+
+CREATE TABLE tipoContrato(
+	codTipoCont INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomTipoCont VARCHAR(50)  NOT NULL
+)
+
+CREATE TABLE contratoCabecera(
+	codContrato INT(8)  PRIMARY KEY AUTO_INCREMENT,
+	nivel VARCHAR(88)  NULL,
+	fechaInicio DATE  NOT NULL,
+	fechaFin DATE  NOT NULL,
+	memoGeresa VARCHAR(8)   NULL,
+	persona INT(8)  NOT NULL,
+	estadoCont INT(2)  NOT NULL,
+	profesion SMALLINT(3)  NOT NULL,
+	cargo	INT(2)  NOT NULL,
+	tipoCont INT(2)  NOT NULL,
+	
+	CONSTRAINT FK_PERSONA_CONTRATOCAB FOREIGN KEY (persona)
+	REFERENCES persona(codPersona) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_ESTADOCONT_CONTRATOCAB FOREIGN KEY (estadoCont)
+	REFERENCES estadoContrato(codEstadoCon) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_PROFESION_CONTRATOCAB FOREIGN KEY (profesion)
+	REFERENCES profesion_oficio(codProfesion) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_CARGO_CONTRATOCAB FOREIGN KEY (cargo)
+	REFERENCES cargo(codCargo) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_TIPOCONT_CONTRATOCAB FOREIGN KEY (tipoCont)
+	REFERENCES tipoContrato(codTipoCont) ON UPDATE CASCADE ON DELETE CASCADE
+	
+	
+)
+
+
+
+/*
+* cada vez que se genere un desplazamiento se guardara en esta tabla
+* y la columna estado solo aceptara valores 0 y 1 donde el 1=activo 0 = inactivo
+*/
+CREATE TABLE contratoDetalle(
+	codDetalleCont	INT(8)  PRIMARY KEY AUTO_INCREMENT,
+	estado	BINARY  NOT NULL,
+	codContrato	INT(8)  NOT NULL,
+	codEstab INT(8) NOT NULL,
+		
+	CONSTRAINT FK_CONTRATO_DETALLECONTR FOREIGN KEY (codContrato)
+	REFERENCES contratoCabecera(codContrato) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_ESTABLECIMIENTO_DETALLECONTR FOREIGN KEY (codEstab)
+	REFERENCES establecimiento(codEstab) ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+
+CREATE TABLE tipoLicencia(
+	codTipoLic INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomTipoLic VARCHAR(15)  NOT NULL
+)
+
+CREATE TABLE licencia(
+	codLicencia INT(8)  PRIMARY KEY AUTO_INCREMENT,
+	fechaInicio DATE  NOT NULL,
+	fechaFin DATE  NOT NULL,
+	observacion VARCHAR(50)  NOT NULL,
+	documento VARCHAR(20)  NOT NULL,
+	codTipoLic INT(8) NOT NULL,
+	codContrato INT(5) NOT NULL,
+
+	
+	CONSTRAINT FK_TIPOLIC_LICENCIA FOREIGN KEY (codTipoLic)
+	REFERENCES tipoLicencia(codTipoLic) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_CONTRATO_LICENCIA FOREIGN KEY (codContrato)
+	REFERENCES contratoCabecera(codContrato) ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE motivoRetiro(
+	codMotivoR INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomMotivo VARCHAR(20)  NOT NULL
+)
+
+CREATE TABLE retiro(
+  codRetiro  INT(8)  PRIMARY KEY AUTO_INCREMENT,
+  fechaRetiro DATE  NOT NULL,
+  codContrato INT(5) ,
+  codMotivoR INT(2) ,
+  
+  CONSTRAINT FK_CONTRATO_RETIRO FOREIGN KEY (codContrato)
+  REFERENCES contratoCabecera(codContrato) ON UPDATE CASCADE ON DELETE CASCADE,
+  
+  CONSTRAINT FK_MOTIVO_RETIRO FOREIGN KEY (codMotivoR)
+  REFERENCES motivoRetiro(codMotivoR) ON UPDATE CASCADE ON DELETE CASCADE
+  
+) 
+
+CREATE TABLE motivoSuspension(
+	codMotivoSus INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomMotivo VARCHAR(20)  NOT NULL
+)
+
+CREATE TABLE suspension(
+  codSuspension INT(8)  PRIMARY KEY AUTO_INCREMENT,
+  fechaSuspension DATE  NOT NULL,
+  codContrato INT(5) NOT NULL,
+  codMotivoSus INT(2) NOT NULL,
+  
+  
+  CONSTRAINT FK_CONTRATO_SUSPENSION FOREIGN KEY (codContrato)
+  REFERENCES contratoCabecera(codContrato) ON UPDATE CASCADE ON DELETE CASCADE,
+  
+  CONSTRAINT FK_MOTIVO_SUSPENSION FOREIGN KEY (codMotivoSus)
+  REFERENCES motivoSuspension(codMotivoSus) ON UPDATE CASCADE ON DELETE CASCADE
+  
+) 
+
+CREATE TABLE rol (
+	codRol INT(2)  PRIMARY KEY AUTO_INCREMENT,
+	nomRol VARCHAR(10)  NOT NULL
+)
+
+CREATE TABLE accesos (
+	codAcces	INT(3)  PRIMARY KEY AUTO_INCREMENT,
+	nomVista	VARCHAR(10)  NOT NULL,
+	codRol	INT(2)  NOT NULL,
+	
+	CONSTRAINT FK_ROL_ACCESO FOREIGN KEY (codRol)
+	REFERENCES rol(codRol) ON UPDATE CASCADE ON DELETE CASCADE
+
+)
+
+CREATE TABLE usuario(
+	codUsuario INT(3)  PRIMARY KEY AUTO_INCREMENT,
+	usuario VARCHAR(20)  NOT NULL,
+	contrase VARCHAR(250) NOT NULL,
+	
+	codRol INT(2) NOT NULL,
+	codPersona INT(8)NOT NULL,
+	
+	CONSTRAINT FK_ROL_USUARIO FOREIGN KEY (codRol)
+	REFERENCES rol(codRol) ON UPDATE CASCADE ON DELETE CASCADE,
+	
+	CONSTRAINT FK_PERSONA_USUARIO FOREIGN KEY (codPersona)
+	REFERENCES persona(codPersona) ON UPDATE CASCADE ON DELETE CASCADE
+)
