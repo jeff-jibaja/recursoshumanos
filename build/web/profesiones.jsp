@@ -11,8 +11,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Profesiones</title>
-        <link rel="stylesheet" href="../css/input.css"/>
-        <link rel="stylesheet" href="../css/profesiones.css"/>
+        <link rel="stylesheet" href="css/input.css"/>
+        <link rel="stylesheet" href="css/profesiones.css"/>
+        <link rel="stylesheet" href="css/table.css"/>
     </head>
     <body>
         <section class="container" >

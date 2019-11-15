@@ -1,0 +1,21 @@
+.header-formulario{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.btn_buscar{
+    color:#666666;
+    width: 125px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding: 2px;
+    height: 40px;
+    border:solid 1px #666666;
+}
+
+.form{
+    padding: 2%;
+    border-radius: 10px;
+  
+}

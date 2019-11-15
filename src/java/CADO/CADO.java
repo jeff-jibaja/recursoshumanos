@@ -56,8 +56,6 @@ public class CADO {
         } catch (SQLException ex) {
             System.out.println("error " + ex.getLocalizedMessage());
 
-        }finally{
-            ps.close();
         }
         
         return exito;
@@ -76,8 +74,6 @@ public class CADO {
             }
         } catch (SQLException ex) {
             System.out.println("error " + ex.getLocalizedMessage());
-        }finally{
-            ps.close();
         }
 
         return false;
@@ -115,8 +111,6 @@ public class CADO {
 
         } catch (SQLException ex) {
             System.out.println("error " + ex.getMessage());
-        }finally{
-            ps.close();
         }
 
         return exito;
@@ -128,8 +122,6 @@ public class CADO {
             rs = ps.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(CADO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            ps.close();
         }
         return rs;
     }
@@ -141,8 +133,6 @@ public class CADO {
             rs = ps.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(CADO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            ps.close();
         }
         return rs;
     }

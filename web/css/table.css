@@ -1,0 +1,21 @@
+.table{
+    width: 100%;
+    font-family: sans-serif;
+    border-collapse: collapse;
+}
+
+.table_header{
+    background: rgba(0,0,0,0.1);
+    height: 50px;        
+    color: #ffffff;
+    border-radius: 15px;
+    background: #0069d9;
+}
+.table_body{
+    height: 48px;
+}
+
+td{
+    padding: 5px;
+}
+

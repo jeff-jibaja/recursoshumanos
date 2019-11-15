@@ -4,9 +4,25 @@
         <servlet-name>profesionServlet</servlet-name>
         <servlet-class>controllers.profesionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>personalController</servlet-name>
+        <servlet-class>controllers.personalController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>redController</servlet-name>
+        <servlet-class>controllers.redController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>profesionServlet</servlet-name>
         <url-pattern>/profesionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>personalController</servlet-name>
+        <url-pattern>/personalController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>redController</servlet-name>
+        <url-pattern>/redController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

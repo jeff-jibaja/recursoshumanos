@@ -134,7 +134,6 @@ public class personaImp implements crudInterface {
         try {
             personaBean per;
             rs = cd.listar(sqlistadoCompleto);
-
             while (rs.next()) {      
                 per  = new personaBean();
                 per.setCodigo(rs.getInt(1));

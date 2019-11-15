@@ -6,11 +6,10 @@
 package datos;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.sql.DriverManager;
 
 public class ConexionBD {
    
@@ -20,13 +19,18 @@ public class ConexionBD {
     
     
     private void conectar(){
-
-          String sql = "jdbc:sqlserver://localhost:1434;databaseName=RRHH";  
-        try{ 
-           con = DriverManager.getConnection(sql,"sa","123");    
-          
-        }catch(SQLException SQL){
-            System.out.println("error en la conexion "+SQL.getLocalizedMessage());
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String sql = "jdbc:sqlserver://localhost:1434;databaseName=RRHH";
+            try{
+                con = DriverManager.getConnection(sql,"sa","123");
+                
+            }catch(SQLException SQL){
+                System.out.println("error en la conexion "+SQL.getMessage());
+            }
+            
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
